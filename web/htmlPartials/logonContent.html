@@ -1,0 +1,36 @@
+<!--  This is not a complete HTML page. It just has the HTML that should go in the content area of your page. -->
+
+<div class='center'>
+
+    <p>
+        Please enter your Log in credentials in the fields below
+    </p>
+    <table id="inputarea">
+        <tr>
+            <td class ="prompt">                   
+                Email:
+            </td>
+            <td>
+                <input type="text" id="email"/><br/>
+            </td>
+        </tr>
+        <tr>
+            <td class ="prompt">
+                Password:
+            </td>
+            <td>
+                <input type="text" id="password"/><br/>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button onclick="account.logon('email', 'password', 'logonMsg')">Log On</button>
+            </td>
+        </tr>
+    </table>
+
+    <div id="logonMsg"></div>
+
+
+</div>

@@ -1,0 +1,14 @@
+<!--  This is not a complete HTML page. It just has the HTML that should go in the content area of your page. -->
+
+<div style="margin-left:2em;">
+    <p>
+        Enter the id of an instrument. If that instrument is in the database, all instrument info will be displayed. 
+    </p>
+
+    <p>
+        Instrument Id:
+        <input type="text" id="instrumentId"/>
+        <button onclick="findInstrumentFn(document.getElementById('instrumentId').value)">Find Instrument</button>
+    </p>
+    <div id="instrumentInfoHere"></div>
+</div>

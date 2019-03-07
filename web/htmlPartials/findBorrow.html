@@ -1,0 +1,14 @@
+<!--  This is not a complete HTML page. It just has the HTML that should go in the content area of your page. -->
+
+<div style="margin-left:2em;">
+    <p>
+        Enter the id of a Borrow transaction. If that transaction is in the database, all Borrow info will be displayed. 
+    </p>
+
+    <p>
+        Borrow Id:
+        <input type="text" id="borrowId"/>
+        <button onclick="findBorrowFn(document.getElementById('borrowId').value)">Find Borrow</button>
+    </p>
+    <div id="borrowInfoHere"></div>
+</div>

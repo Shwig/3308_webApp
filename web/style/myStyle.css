@@ -1,0 +1,136 @@
+
+/* This CSS file is called an external style sheet. Link to it from 
+your HTML pages. */
+
+
+/*  Use ONLY this type of comment inside a style sheet. Other types 
+  (like double slash) do not work. */
+
+html, body {
+    margin:0; /* don't want tiny white border inside browser window */
+    padding:0; /* don't want tiny white border inside browser window */
+}
+body {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    background-color: rgb(58, 140, 220); /* this is a blue color */
+    font-size:16px;
+}
+
+#titleNav {
+    font-family: serif;
+    color:white;
+    background-color:black;
+    height: 74px;
+    min-width:520px; /* forces horizontal scroll bar when browser width < the size specified 
+This prevents unwanted wrapping of nav bar elements when the browser 
+is smaller than the specified value */
+}
+
+#pageTitle { /* position web site title inside the titleNav */
+    padding-top:12px;
+    padding-left:10px;
+    font-size:45px;
+    font-weight:bold;
+    letter-spacing: 1px;
+    text-align:center;
+    float:left; /* allows nav to exist on same line */
+}
+#nav {
+    margin-right:2%;
+    float:right; /* shares same line with PageTitle */
+    letter-spacing: 1px;
+}
+
+/* "#nav a" styles links inside of element with id="nav" */
+#nav a {
+    text-decoration:none;  /* Do not undersline links in "nav" */
+}
+
+
+/* Styles any element that says class="navLink" */
+.navLink {
+    margin-top:3px;
+    float:left;
+    font-size:18px;
+    padding: 6px;
+    padding-top:34px;
+    height: 33px;
+    text-align:center;
+    letter-spacing: 1px;
+    font-weight:bold;
+    position: relative; /* this does nothing except allow us to specify z-index to bring it to front 
+    when the user clicks on the sub menu*/
+    z-index: 2;
+}
+
+.subMenu {
+    background-color:black;
+    font-size:0.9em;
+    line-height: 1.7em;
+    display:none;
+    margin-top:0.8ex;
+}
+
+.stopFloat { /* We float divs left in desktop layout to create multiple columns. Put
+                a "clear:both" rule where you want to stop the floating (like page eject). */
+    clear:both;
+}
+#content {
+    padding-left:8px;	
+    padding-right:20px;	
+    padding-bottom: 80px; /* Footer is fixed. Add bottom margin to content 
+                             so that the foooter does not cover up the bottom 
+                             of your content. */
+}
+
+#content a {  /* no change */
+    text-decoration:underline;  /* Do not want links in "nav" to be underlined */
+    color: orange; /* light gray: to provide color for links, you have to style the "a" tag */
+}
+
+/* I made the footer be always fixed to the bottom of the browser window. */
+#footer {
+    position: fixed;
+    bottom:0px;
+    left:0xp;
+    width:100%;
+    background-color:black;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:5px;	 	 
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.width33Pct { /* right column in my layout */
+    /* border: thin solid red; Use a rule like this to see where a div is to debug. */
+    padding-left: 1%;
+    padding-right: 1%;
+    width:33.3%;
+    float:left;
+    box-sizing: border-box;
+    padding-bottom: 30px;  /* because this floats, the content padding-botom does not keep what's in width33Pct
+                           from being hidden under the footer. This element needs its own padding-botoom. */
+}
+
+.width66Pct { /* left column in my layout */
+    padding-left: 1%;
+    padding-right: 1%;
+    width:66.6%;
+    float:left;
+    box-sizing: border-box;
+    padding-bottom: 30px;  /* because this floats, the content padding-botom does not keep what's in width66Pct
+                           from being hidden under the footer. This element needs its own padding-botoom. */
+}
+
+.width33Pct img, .width66Pct img {
+    width:100%;
+    border-radius: 10px;
+    margin-bottom: 1ex;
+}

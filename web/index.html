@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>On Stage</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- This is how you link to an external style sheet. -->
+        <link href="style/myStyle.css" rel="stylesheet" type="text/css" />  
+        <link href="style/listStyle.css" rel="stylesheet" type="text/css" />  
+        <link href="style/inputStyle.css" rel="stylesheet" type="text/css" />
+
+    </head>
+    <body>
+
+        <div id="titleNav">
+
+            <!-- The style sheet has pageTitle floated left -->
+            <div id="pageTitle">
+                On Stage 
+            </div>
+
+            <!-- The style sheet has nav floated right -->
+            <div id="nav">
+                <div class="navLink"><a onclick = "ajax('htmlPartials/homeContent.html', setContent, 'content')">Home&nbsp;&nbsp;</a></div>
+                <div class="navLink" onclick="menuToggle(this)">&nbsp;&nbsp;Account&nbsp;&nbsp;
+                    <div class="subMenu">
+                        <a onclick = "">Register</a><br/>                        
+                        <a onclick = "ajax('htmlPartials/logonContent.html', setContent, 'content')">Log In</a><br/>                        
+                        <a onclick = "account.profile('content')">Profile</a><br/>
+                        <a onclick = "account.logOff('content')">Log Out</a><br/>
+                        <!--<a onclick = "ajax('htmlPartials/logonContentSS.html', setContent, 'GGcontent')">Test</a><br/>-->                        
+
+                    </div>
+                </div>
+                <div class="navLink" onclick="menuToggle(this)">&nbsp;&nbsp;Data&nbsp;&nbsp;
+                    <div class="subMenu">
+                        <!--a onclick = "ajax('webAPIs/getAllUsersAPI.jsp', setUserContent, 'content')">Users</a><br/-->
+                        <a onclick = " userCRUD.list('content')">Users</a><br/>
+                        <!--<a onclick = "ajax('webAPIs/getAllInstrumentsAPI.jsp', setUserContent, 'content')">Instrument</a><br/>-->
+                        <a onclick = " instrumentCRUD.list('content')">Instrument</a><br/>
+                        <!--<a onclick = "ajax('webAPIs/getAllBorrowsAPI.jsp', setUserContent, 'content')">Borrow</a>-->
+                        <a onclick = " borrowCRUD.list('content')">Borrow</a><br/>
+
+                    </div>
+                </div>
+                <div class="navLink" onclick = "menuToggle(this)">&nbsp;&nbsp;Search&nbsp;&nbsp;
+                    <div class="subMenu">
+                        <a onclick = "ajax('htmlPartials/findUser.html', setContent, 'content')">User</a><br/>
+                        <a onclick = "ajax('htmlPartials/findInstrument.html', setContent, 'content')">Instrument</a><br/>
+                        <a onclick = "ajax('htmlPartials/findBorrow.html', setContent, 'content')">Borrow</a>
+                    </div>
+                </div>
+                <div class="navLink"><a onclick = "ajax('htmlPartials/blogContent.html', setContent, 'content')">&nbsp;&nbsp;Blog</a></div>
+            </div>
+
+            <!-- Must stop the floating so that elements below (e.g., content) 
+            don't float up into here. --><!--script  src="js/dropDownMenu.js"></script-->
+            <div class="stopFloat"></div>
+        </div>
+
+        <div id="content">
+
+        </div> <!-- content. [[Keep track of nesting]] -->
+
+        <div id="footer">
+            Matthew O'Mara
+        </div>
+
+        <script src="js/account.js"></script> 
+        <script src="js/ajax.js"></script>
+        <script src="js/buildTable.js"></script>
+        <script src="js/userCRUD.js"></script>
+        <script src="js/instrumentCRUD.js"></script>
+        <script src="js/borrowCRUD.js"></script>
+        <script src="js/findUser.js"></script>
+        <script src="js/findInstrument.js"></script>
+        <script src="js/findBorrow.js"></script>
+        <script src="js/makePickList.js"></script>
+
+        <script>
+
+                    "use strict"; // tell browser all variables must be declared (with "var") before 1st use
+
+                    // Make sure initial page load has home content displayed. 
+                    // ajaxCall will read from file "homeContente.html" then place those results in 
+                    // the HTML element with id "content". 
+                    ajax("htmlPartials/homeContent.html", setContent, 'content');
+
+                    // Place the contents of the file url into the 
+                    // innerHTML property of the HTML element with id "content". 
+                    function setContent(httpRequest) {
+                        console.log("Ajax call was successful.");
+                        document.getElementById("content").innerHTML = httpRequest.responseText;
+                    }
+
+                    function setUserContent(httpRequest) {
+
+                        document.getElementById("content").innerHTML = "";
+                        var target = document.createElement("div");
+                        target.id = "dataList"; // check listStyle.css for #dataList styling
+                        target.innerHTML = "<h2>Result Set</h2>";
+                        document.getElementById("content").append(target);
+
+                        console.log("listUsersResponse - here is the value of httpRequest object (next line)");
+                        console.log(httpRequest);
+
+                        var obj = JSON.parse(httpRequest.responseText);
+
+                        if (obj === null) {
+                            target.innerHTML = "listUsersResponse Error: JSON string evaluated to null.";
+                            return;
+                        }
+
+                        // remove unwanted data property from JSON 
+                        for (var i = 0; i < obj.webUserList.length; i++) {
+                            delete obj.webUserList[i].userPassword2;
+                        }
+
+                        // buildTable Parameters: 
+                        // First:  array of objects that are to be built into an HTML table.
+                        // Second: string that is database error (if any) or empty string if all OK.
+                        // Third:  reference to DOM object where built table is to be stored. 
+
+                        buildTable(obj.webUserList, obj.dbError, target);
+
+                    }
+
+                    function menuToggle(ele) {
+                        var children = ele.getElementsByClassName("subMenu");
+                        console.log(children);
+
+                        var child = children[0];
+
+                        // Tip: JS doesnt understand the initial CSS values (the values 
+                        // set by style sheet instead of by JS), unless you use a function that is 
+                        // something like "getComputedStyle". But you can avoid this by having the 
+                        // if condition test for the way CSS does NOT have it initially set. 
+                        // (In other words, do not reverse the order of the if/else block.)                      
+                        if (child.style.display === "block") {
+                            child.style.display = "none";
+                        } else {
+                            child.style.display = "block";
+                        }
+                    }
+
+        </script>
+    </body>
+</html>
